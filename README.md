@@ -1,10 +1,11 @@
-# HW8NoSQL
+# Home Work №8 - NoSQL
 
-Instructions TBD
+## Instructions TBD
 
-Mongo DB on Atlas with RabitMQ
+# Mongo DB on Atlas with RabitMQ
 
-First part:
+## First part:
+
 We have JSON file with authors and their attributes: date and location of birth, short biography description.
 authors.json:
 ```
@@ -71,14 +72,43 @@ quotes.json:
 ]
 ```
 
-Task description.
+## Task description.
 
-1. Create cloud DB Atlas MongoDB
-2. With the ODM Mongoengine create models to store data from these files in a clollections authors and quotes.
-3. Field of author should be not be defined as a String but Reference fields, where ObjectID is saved from the collection authors.
+1. Create cloud DB [Atlas MongoDB](https://www.mongodb.com/atlas/database)
+2. With the [ODM Mongoengine](https://docs.mongoengine.org/) create models to store data from these files in a clollections authors and quotes.
+3. Field of author should be not be defined as a String but [Reference fields](https://docs.mongoengine.org/guide/defining-documents.html?highlight=ReferenceField#reference%20-fields), where ObjectID is saved from the collection authors.
 4. Create scripts for loading json files to cloud database.
 5. Implement script to search quotes by tag, by author name or set of tags. Script should be run in endless loop and with the help of 'input' operator should take commands in the following format "command: value".
    For example:
 
 - name: Steve Martin - find and return list of all quotes of Stieve Martin.
 - tag: life, live - find and return list of quotes where tags life or live are present (note: without whitespaces between tags)
+- exit - end script execution;
+
+1. Output of search results only in format utf-8;
+
+## Additional task
+
+1. Find out and implement possibility of shortcut of values for commands name:Steve Martin and tag:life as name:st and tag:li accordingly;
+2. Execute results caching of commands name: and tag: with Redis, to get result not from the MongoDB but from cache.
+
+# Hint
+For commands name:st and tag:li, use regular expressions in [String queries](https://docs.mongoengine.org/guide/querying.html#string-queries)
+
+## Sedond part
+
+Write two scripts: consumer.py and producer.py. Organize imitation of broadcast to email contacts  using RabbitMQ with a help of queues.
+
+Create model for contact, using ODM Mongoengine. The model should include fields: full_name, email, and boolean field that has value 'False' by default.
+It means, that message was not sent to contact and should be set to 'True', when it will be sent.
+Other fields for information load you can find out by yourselves.
+
+Script  `producer.py` generates certain amount during its run and writes it to the database. The it puts messages that contains ObjectID of created contact to the queue RabbitMQ (and does it for all generated contacts) 
+
+Script  `consumer.py` resives messages from RabbitMQ queue, handles it and simulates sending message by email by stub-function.
+After sending the mesage the boolean field for the contact should be set to 'True'. Script should work continiously waiting messages from RabbitMQ.
+
+## Additional part
+
+Enter the phone number in the additional field of the model. Also add a field that is responsible for the best way to send messages - SMS by phone or email. Let `producer.py` send SMS and email contacts to different queues. Create two scripts consumer_sms.py and consumer_email.py, each of which receives and processes its contacts.
+
