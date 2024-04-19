@@ -7,7 +7,7 @@ Mongo DB on Atlas with RabitMQ
 First part:
 We have JSON file with authors and their attributes: date and location of birth, short biography description.
 authors.json:
-[
+'''[
 {
 "fullname": "Albert Einstein",
 "born_date": "March 14, 1879",
@@ -20,11 +20,11 @@ authors.json:
 "born_location": "in Waco, Texas, The United States",
 "description": "Stephen Glenn \"Steve\" Martin is an American actor, comedian, writer, playwright, producer, musician, and composer. He was raised in Southern California in a Baptist family, where his early influences were working at Disneyland and Knott's Berry Farm and working magic and comedy acts at these and other smaller venues in the area. His ascent to fame picked up when he became a writer for the Smothers Brothers Comedy Hour, and later became a frequent guest on the Tonight Show.In the 1970s, Martin performed his offbeat, absurdist comedy routines before packed houses on national tours. In the 1980s, having branched away from stand-up comedy, he became a successful actor, playwright, and juggler, and eventually earned Emmy, Grammy, and American Comedy awards."
 }
-]
+]'''
 
 and there's following JSON file with quotes of this authors.
 quotes.json:
-[
+'''[
 {
 "tags": [
 "change",
@@ -64,7 +64,7 @@ quotes.json:
 "author": "Steve Martin",
 "quote": "“A day without sunshine is like, you know, night.”"
 }
-]
+]'''
 
 Task description.
 
