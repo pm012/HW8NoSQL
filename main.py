@@ -3,7 +3,6 @@ from connect import get_mongo_connection
 
 
 # Search quotes by tag or author name
-# Search quotes by tag or author name
 def search_quotes(command):
     if command.startswith("name:"):
         author_name = command.split(":")[1].strip()
