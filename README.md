@@ -1,15 +1,26 @@
 # Home Work №8 - NoSQL
 
 ## Instructions
+
+Part 1
+
 1. Provide correct cridentials for MongoDB connection string in config.ini
 2. Run load_json.py to populate data from json files (located in json directory)
 3. run main.py to launch program to search by author or tag. Type 'exit' to exit the loop
+
+Part 2
+
+1. Files related to the second part of the task is located in the "part2_rebbitMQ" folder (the same MongoDB database is used to store data)
+2. Navigate to part2_rabbitMQ folder and launch RabbitMQ server using command `docker-compose up -d` (NOTE: rabbitmq credentials should be updated both in docker-compose.yml and in config.ini)
+3. You can open rabbitMQ in browser 127.0.0.1:15672 and login using cridentials from the docker-compose.yml file
+4. Run producer.py script - this will generate fake contacts and send messages to RabbitMQ queues.
+5. Run consumer.py script (verify messages in the terminal messages or you can check the messages are handled via RabbitMQ MS in broser)
 
 # Mongo DB on Atlas with RabitMQ
 
 ## First part:
 
-We have JSON file with authors and their attributes: date and location of birth, short biography description.
+There is JSON file with authors and their attributes: date and location of birth, short biography description.
 authors.json:
 
 ```json
@@ -83,17 +94,19 @@ For commands name:st and tag:li, use regular expressions in [String queries](htt
 
 ## Sedond part
 
+For the following task create MongoDB datamodel.py where it should be defined and created
+
 Write two scripts: consumer.py and producer.py. Organize imitation of broadcast to email contacts using RabbitMQ with a help of queues.
 
 Create model for contact, using ODM Mongoengine. The model should include fields: full_name, email, and boolean field that has value 'False' by default.
-It means, that message was not sent to contact and should be set to 'True', when it will be sent.
+The purpose of the boolean field is to show, that message was not sent to contact and should be set to 'True', when it is sent.
 Other fields for information load you can find out by yourselves.
 
-Script `producer.py` generates certain amount during its run and writes it to the database. The it puts messages that contains ObjectID of created contact to the queue RabbitMQ (and does it for all generated contacts)
+Script `producer.py` generates certain amount of fake contacts during its run and writes it to the database. Then it puts messages that contains ObjectID of created contact to the queue RabbitMQ (and does it for all generated contacts)
 
 Script `consumer.py` resives messages from RabbitMQ queue, handles it and simulates sending message by email by stub-function.
 After sending the mesage the boolean field for the contact should be set to 'True'. Script should work continiously waiting messages from RabbitMQ.
 
 ## Additional part
 
-Enter the phone number in the additional field of the model. Also add a field that is responsible for the best way to send messages - SMS by phone or email. Let `producer.py` send SMS and email contacts to different queues. Create two scripts consumer_sms.py and consumer_email.py, each of which receives and processes its contacts.
+Enter the phone number in the additional field of the model. Also add a field that is responsible for the best way to send messages - SMS (by phone) or by email. Let `producer.py` send SMS and email contacts to different queues (split messages by mediatype). Create two scripts consumer_sms.py and consumer_email.py, each of which receives and processes its contacts.
